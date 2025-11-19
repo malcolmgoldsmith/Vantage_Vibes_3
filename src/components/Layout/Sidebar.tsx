@@ -1,38 +1,69 @@
 import React from 'react';
 import { Home, Settings, Power, Target, Grid, Shield, Wrench, Sparkles, ShieldCheck, ExternalLink, Lock } from 'lucide-react';
+
+type Page = 'dashboard' | 'settings';
+
 interface SidebarProps {
   open: boolean;
+  currentPage: Page;
+  onNavigate: (page: Page) => void;
 }
+
 export const Sidebar: React.FC<SidebarProps> = ({
-  open
+  open,
+  currentPage,
+  onNavigate
 }) => {
   const sidebarItems = [{
     icon: <Home size={20} />,
-    active: true
+    page: 'dashboard' as Page,
+    id: 'home'
   }, {
-    icon: <Settings size={20} />
+    icon: <Settings size={20} />,
+    page: undefined,
+    id: 'settings-icon'
   }, {
-    icon: <Power size={20} />
+    icon: <Power size={20} />,
+    page: undefined,
+    id: 'power'
   }, {
-    icon: <Target size={20} />
+    icon: <Target size={20} />,
+    page: undefined,
+    id: 'target'
   }, {
-    icon: <Grid size={20} />
+    icon: <Grid size={20} />,
+    page: undefined,
+    id: 'grid'
   }, {
-    icon: <Shield size={20} />
+    icon: <Shield size={20} />,
+    page: undefined,
+    id: 'shield'
   }, {
-    icon: <Wrench size={20} />
+    icon: <Wrench size={20} />,
+    page: 'settings' as Page,
+    id: 'wrench'
   }, {
-    icon: <Sparkles size={20} />
+    icon: <Sparkles size={20} />,
+    page: undefined,
+    id: 'sparkles'
   }, {
     icon: <div className="w-8 h-px bg-gray-200" />,
-    separator: true
+    separator: true,
+    id: 'separator'
   }, {
-    icon: <ShieldCheck size={20} />
+    icon: <ShieldCheck size={20} />,
+    page: undefined,
+    id: 'shieldcheck'
   }, {
-    icon: <ExternalLink size={20} />
+    icon: <ExternalLink size={20} />,
+    page: undefined,
+    id: 'external'
   }, {
-    icon: <Lock size={20} />
+    icon: <Lock size={20} />,
+    page: undefined,
+    id: 'lock'
   }];
+
   return <div className={`bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ${open ? 'w-16' : 'w-0'}`}>
       <div className="h-16 flex items-center justify-center border-b border-gray-200">
         <div className="bg-[#0072CE] text-white font-bold w-10 h-10 flex items-center justify-center rounded">
@@ -40,7 +71,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
       <div className="flex-1 py-4">
-        {sidebarItems.map((item, index) => <div key={index} className={`w-full h-12 flex items-center justify-center cursor-pointer text-gray-600 hover:text-blue-600 ${item.active ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600' : 'border-l-4 border-transparent'} ${item.separator ? 'cursor-default hover:text-gray-600' : ''}`}>
+        {sidebarItems.map((item) => <div
+            key={item.id}
+            onClick={() => item.page && onNavigate(item.page)}
+            className={`w-full h-12 flex items-center justify-center ${item.page ? 'cursor-pointer' : 'cursor-default'} text-gray-600 hover:text-blue-600 ${item.page === currentPage ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600' : 'border-l-4 border-transparent'} ${item.separator ? 'cursor-default hover:text-gray-600' : ''}`}>
             {item.icon}
           </div>)}
       </div>

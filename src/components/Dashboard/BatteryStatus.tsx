@@ -7,7 +7,7 @@ export const BatteryStatus: React.FC = () => {
   const isCharging = true;
   return <Card title="Battery" actionIcon={<MoreHorizontal size={20} />}>
       <div className="flex flex-col items-center justify-center py-6">
-        <CircularProgress percentage={batteryPercentage} color="#0072CE" icon={<img src="/image.png" alt="Battery" className="w-10 h-10" />} />
+        <CircularProgress percentage={batteryPercentage} color="#0072CE" icon={<img src="/battery.png" alt="Battery" className="w-10 h-10" />} />
         <div className="mt-4 text-sm text-gray-600">
           {isCharging ? 'Charging • ' : ''}
           {batteryPercentage}% charged

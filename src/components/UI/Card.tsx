@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 interface CardProps {
   children: ReactNode;
   title?: string;

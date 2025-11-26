@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export const GeminiTest: React.FC = () => {
-  const [apiKey, setApiKey] = useState('AIzaSyDWjO-Dzs7ojtmCyNziihWxmTFRdyR-bgA');
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem('gemini_api_key') || '');
   const [response, setResponse] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>('');

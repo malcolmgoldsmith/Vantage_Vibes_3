@@ -543,6 +543,38 @@ Return only the HTML code, no explanations or markdown.`
     setIsFullscreen(!isFullscreen);
   };
 
+  const exportApps = () => {
+    const dataStr = JSON.stringify(savedApps, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `vantage-apps-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const importApps = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const importedApps = JSON.parse(e.target?.result as string);
+        if (Array.isArray(importedApps)) {
+          setSavedApps(importedApps);
+          alert(`Successfully imported ${importedApps.length} apps!`);
+        }
+      } catch (error) {
+        alert('Failed to import apps. Invalid file format.');
+      }
+    };
+    reader.readAsText(file);
+  };
+
   const STEP_LABELS = [
     '',
     'Creating plan',
@@ -568,13 +600,35 @@ Return only the HTML code, no explanations or markdown.`
             <h1 className="text-3xl font-bold text-gray-900">Vantage Apps</h1>
             <p className="text-gray-600 mt-1">Create and manage your AI-generated apps</p>
           </div>
-          <button
-            onClick={openCreateModal}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            <span className="text-xl">+</span>
-            Create New App
-          </button>
+          <div className="flex items-center gap-2">
+            {savedApps.length > 0 && (
+              <>
+                <button
+                  onClick={exportApps}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  title="Export all apps to JSON file"
+                >
+                  📥 Export
+                </button>
+                <label className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors cursor-pointer">
+                  📤 Import
+                  <input
+                    type="file"
+                    accept=".json"
+                    onChange={importApps}
+                    className="hidden"
+                  />
+                </label>
+              </>
+            )}
+            <button
+              onClick={openCreateModal}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <span className="text-xl">+</span>
+              Create New App
+            </button>
+          </div>
         </div>
 
         {savedApps.length === 0 ? (

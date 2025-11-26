@@ -13,6 +13,8 @@ export const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [apiKey, setApiKey] = useState('');
+  const [showApiKeyInput, setShowApiKeyInput] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -27,7 +29,7 @@ export const Chat: React.FC = () => {
   }, []);
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || !apiKey.trim()) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -41,9 +43,6 @@ export const Chat: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Call Gemini API
-      const apiKey = localStorage.getItem('gemini_api_key') || 'AIzaSyDc5lEtlO5pUxAdMiu_AWexa6EXAKEbcw0';
-
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key=${apiKey}`,
         {
@@ -103,24 +102,46 @@ export const Chat: React.FC = () => {
   return (
     <div className="flex flex-col h-full bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-            <Bot size={20} className="text-white" />
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+              <Bot size={20} className="text-white" />
+            </div>
+            <div>
+              <h1 className="text-xl font-semibold text-gray-800">Chat with Gemini</h1>
+              <p className="text-sm text-gray-500">AI Assistant powered by Gemini 3 Pro</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-semibold text-gray-800">Chat with Gemini</h1>
-            <p className="text-sm text-gray-500">AI Assistant powered by Gemini 3 Pro</p>
-          </div>
+          {messages.length > 0 && (
+            <button
+              onClick={clearChat}
+              className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              Clear Chat
+            </button>
+          )}
         </div>
-        {messages.length > 0 && (
-          <button
-            onClick={clearChat}
-            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+
+        {/* API Key Input */}
+        <div className="flex gap-2 items-center bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+          <span className="text-sm font-medium text-gray-700">API Key:</span>
+          <input
+            type="password"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            placeholder="Enter your Gemini API key"
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          />
+          <a
+            href="https://makersuite.google.com/app/apikey"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-blue-600 hover:text-blue-700 underline whitespace-nowrap"
           >
-            Clear Chat
-          </button>
-        )}
+            Get API Key
+          </a>
+        </div>
       </div>
 
       {/* Messages Area */}

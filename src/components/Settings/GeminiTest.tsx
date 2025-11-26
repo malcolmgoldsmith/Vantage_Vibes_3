@@ -5,7 +5,7 @@ import { Send, CheckCircle, XCircle, Loader } from 'lucide-react';
 export const GeminiTest: React.FC = () => {
   const [apiKey, setApiKey] = useState(() => {
     // Load saved API key from localStorage
-    return localStorage.getItem('gemini_api_key') || 'AIzaSyDc5lEtlO5pUxAdMiu_AWexa6EXAKEbcw0';
+    return localStorage.getItem('gemini_api_key') || '';
   });
   const [testMessage, setTestMessage] = useState('Hello, Gemini! Please introduce yourself.');
   const [thinkingLevel, setThinkingLevel] = useState<'low' | 'high'>('high');

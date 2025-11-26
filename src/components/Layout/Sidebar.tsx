@@ -1,7 +1,7 @@
 import React from 'react';
-import { Home, Settings, Power, Target, Grid, Shield, Wrench, Sparkles, ShieldCheck, ExternalLink, Lock } from 'lucide-react';
+import { Home, Settings, Power, Target, Grid, Shield, Wrench, Sparkles, ShieldCheck, ExternalLink, Lock, Zap, MessageSquare } from 'lucide-react';
 
-type Page = 'dashboard' | 'settings';
+type Page = 'dashboard' | 'settings' | 'apps' | 'test' | 'chat' | 'hello';
 
 interface SidebarProps {
   open: boolean;
@@ -28,7 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     id: 'power'
   }, {
     icon: <Target size={20} />,
-    page: undefined,
+    page: 'hello' as Page,
     id: 'target'
   }, {
     icon: <Grid size={20} />,
@@ -44,8 +44,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     id: 'wrench'
   }, {
     icon: <Sparkles size={20} />,
-    page: undefined,
+    page: 'apps' as Page,
     id: 'sparkles'
+  }, {
+    icon: <Zap size={20} />,
+    page: 'test' as Page,
+    id: 'test'
   }, {
     icon: <div className="w-8 h-px bg-gray-200" />,
     separator: true,
@@ -62,6 +66,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
     icon: <Lock size={20} />,
     page: undefined,
     id: 'lock'
+  }, {
+    icon: <MessageSquare size={20} />,
+    page: 'chat' as Page,
+    id: 'chat'
   }];
 
   return <div className={`bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ${open ? 'w-16' : 'w-0'}`}>

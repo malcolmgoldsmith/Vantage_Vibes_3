@@ -4,7 +4,7 @@ export const SecurityCard: React.FC = () => {
   return <Card>
       <div className="flex p-4">
         <div className="w-1/3">
-          <img src="/image.png" alt="Security illustration" className="w-full h-auto" style={{
+          <img src="/identitya.png" alt="Security illustration" className="w-full h-auto" style={{
           maxWidth: '150px'
         }} />
         </div>

@@ -309,6 +309,14 @@ TECHNICAL REQUIREMENTS:
 - The code should run immediately when loaded
 - Make it mobile-friendly and responsive
 
+IMAGE MANIPULATION REQUIREMENTS (if the app involves uploading, editing, or manipulating images):
+- MUST use HTML5 Canvas API for all image manipulation
+- Use canvas.getContext('2d') for drawing and image processing
+- For filters/effects, manipulate pixel data using getImageData() and putImageData()
+- Example pattern: canvas.drawImage() -> getImageData() -> modify pixels -> putImageData()
+- DO NOT use CSS filters alone for image editing (CSS is OK for UI effects only)
+- Provide download functionality using canvas.toDataURL() or canvas.toBlob()
+
 CRITICAL - NO BROWSER DEFAULTS:
 - NEVER use alert(), confirm(), or prompt() functions
 - Instead, create custom modal dialogs with HTML/CSS/JavaScript
@@ -421,6 +429,14 @@ TECHNICAL REQUIREMENTS:
 - Maintain the app's existing functionality unless explicitly asked to change it
 - Apply the user's requested changes with creative flair
 - No external dependencies or imports
+
+IMAGE MANIPULATION REQUIREMENTS (if the app involves uploading, editing, or manipulating images):
+- MUST use HTML5 Canvas API for all image manipulation
+- Use canvas.getContext('2d') for drawing and image processing
+- For filters/effects, manipulate pixel data using getImageData() and putImageData()
+- Example pattern: canvas.drawImage() -> getImageData() -> modify pixels -> putImageData()
+- DO NOT use CSS filters alone for image editing (CSS is OK for UI effects only)
+- Provide download functionality using canvas.toDataURL() or canvas.toBlob()
 
 CRITICAL - NO BROWSER DEFAULTS:
 - NEVER use alert(), confirm(), or prompt() functions

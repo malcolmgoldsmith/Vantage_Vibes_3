@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '../UI/Card';
 import { Send, CheckCircle, XCircle, Loader } from 'lucide-react';
 
 export const GeminiTest: React.FC = () => {
-  const [apiKey, setApiKey] = useState('AIzaSyA8g8DLa2NB2B5K8iIVBegWJocsrXL9fpw');
+  const [apiKey, setApiKey] = useState(() => {
+    // Load saved API key from localStorage
+    return localStorage.getItem('gemini_api_key') || 'AIzaSyDc5lEtlO5pUxAdMiu_AWexa6EXAKEbcw0';
+  });
   const [testMessage, setTestMessage] = useState('Hello, Gemini! Please introduce yourself.');
   const [thinkingLevel, setThinkingLevel] = useState<'low' | 'high'>('high');
   const [response, setResponse] = useState('');
@@ -46,6 +49,10 @@ export const GeminiTest: React.FC = () => {
         setResponse(data.candidates[0].content.parts[0].text);
         setModelVersion(data.modelVersion || 'gemini-3-pro-preview');
         setStatus('success');
+
+        // Save API key to localStorage on successful test
+        localStorage.setItem('gemini_api_key', apiKey);
+        console.log('✅ API key saved to localStorage');
       } else {
         setResponse(data.error?.message || JSON.stringify(data, null, 2));
         setStatus('error');
@@ -108,6 +115,9 @@ export const GeminiTest: React.FC = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="Enter your Gemini API key"
             />
+            <p className="mt-2 text-sm text-gray-500">
+              When the connection test succeeds, this API key will be saved and used for all Vantage Apps generation.
+            </p>
           </div>
 
           {/* Test Message Input */}
